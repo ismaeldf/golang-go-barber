@@ -5,13 +5,16 @@ import (
 	"fmt"
 	"github.com/gorilla/mux"
 	"io/ioutil"
+	"ismaeldf.melo/golang/go-barber/database"
 	"ismaeldf.melo/golang/go-barber/models"
 	"ismaeldf.melo/golang/go-barber/repositories"
 	"ismaeldf.melo/golang/go-barber/services"
 	"net/http"
 )
 
-var appointmentRepository = repositories.AppointmentsRepository{}
+var appointmentRepository = repositories.AppointmentsRepository{
+	DB: database.CreateConnectionDB(),
+}
 
 func createAppointment(w http.ResponseWriter, r *http.Request) {
 	b, _ := ioutil.ReadAll(r.Body)
@@ -30,7 +33,7 @@ func createAppointment(w http.ResponseWriter, r *http.Request) {
 		Date: appointment.Date,
 	})
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 

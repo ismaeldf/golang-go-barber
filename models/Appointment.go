@@ -6,8 +6,8 @@ import (
 )
 
 type Appointment struct {
-	ID       string    `json:"id"`
-	Provider string       `json:"provider"`
+	ID       string    `json:"id" gorm:"type:uuid;primary_key"`
+    Provider string    `json:"provider" gorm:"type:uuid;notnull"`
 	Date     time.Time `json:"date"`
 }
 

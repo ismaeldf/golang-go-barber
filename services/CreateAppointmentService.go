@@ -28,11 +28,15 @@ func (s *createAppointmentService) Execute(data Request) (models.Appointment, er
 		return models.Appointment{}, errors.New("This appointment is already booked")
 	}
 
-	var appointment = s.appointmentRepository.Create(repositories.AppointmentRepositoryDTO{
+	appointment, err := s.appointmentRepository.Create(repositories.AppointmentRepositoryDTO{
 		Provider: data.Provider,
 		Date:     appointmentDate,
 	})
-	return appointment, nil
+	if err != nil {
+		return models.Appointment{}, err
+	}
+
+	return *appointment, nil
 }
 
 func startOfHour(date time.Time) time.Time {
