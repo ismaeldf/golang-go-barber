@@ -3,7 +3,7 @@ package middlewares
 import (
 	"context"
 	"github.com/urfave/negroni"
-	"ismaeldf.melo/golang/go-barber/services"
+	"ismaeldf/golang-gobarber/services"
 	"net/http"
 )
 

@@ -1,4 +1,4 @@
-module ismaeldf.melo/golang/go-barber
+module ismaeldf/golang-gobarber
 
 go 1.15
 

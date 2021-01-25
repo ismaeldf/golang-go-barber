@@ -1,8 +1,8 @@
 package main
 
 import (
-	"ismaeldf.melo/golang/go-barber/database"
-	"ismaeldf.melo/golang/go-barber/routes"
+	"ismaeldf/golang-gobarber/database"
+	"ismaeldf/golang-gobarber/routes"
 	"log"
 	"net/http"
 )

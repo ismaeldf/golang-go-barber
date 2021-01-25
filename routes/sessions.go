@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"github.com/gorilla/mux"
 	"io/ioutil"
-	"ismaeldf.melo/golang/go-barber/services"
+	"ismaeldf/golang-gobarber/services"
 	"net/http"
 )
 

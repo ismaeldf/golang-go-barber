@@ -2,8 +2,8 @@ package services
 
 import (
 	"errors"
-	"ismaeldf.melo/golang/go-barber/models"
-	"ismaeldf.melo/golang/go-barber/repositories"
+	"ismaeldf/golang-gobarber/models"
+	"ismaeldf/golang-gobarber/repositories"
 )
 
 type createUserService struct {

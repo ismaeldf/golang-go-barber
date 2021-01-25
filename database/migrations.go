@@ -2,7 +2,7 @@ package database
 
 import (
 	"gorm.io/gorm"
-	"ismaeldf.melo/golang/go-barber/models"
+	"ismaeldf/golang-gobarber/models"
 )
 
 func RunMigrations(db *gorm.DB){

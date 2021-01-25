@@ -4,9 +4,9 @@ import (
 	"encoding/json"
 	"github.com/gorilla/mux"
 	"io/ioutil"
-	"ismaeldf.melo/golang/go-barber/models"
-	"ismaeldf.melo/golang/go-barber/repositories"
-	"ismaeldf.melo/golang/go-barber/services"
+	"ismaeldf/golang-gobarber/models"
+	"ismaeldf/golang-gobarber/repositories"
+	"ismaeldf/golang-gobarber/services"
 	"net/http"
 )
 

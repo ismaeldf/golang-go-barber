@@ -5,10 +5,10 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/urfave/negroni"
 	"io/ioutil"
-	"ismaeldf.melo/golang/go-barber/middlewares"
-	"ismaeldf.melo/golang/go-barber/models"
-	"ismaeldf.melo/golang/go-barber/repositories"
-	"ismaeldf.melo/golang/go-barber/services"
+	"ismaeldf/golang-gobarber/middlewares"
+	"ismaeldf/golang-gobarber/models"
+	"ismaeldf/golang-gobarber/repositories"
+	"ismaeldf/golang-gobarber/services"
 	"net/http"
 )
 

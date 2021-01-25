@@ -1,8 +1,8 @@
 package repositories
 
 import (
-	"ismaeldf.melo/golang/go-barber/database"
-	"ismaeldf.melo/golang/go-barber/models"
+	"ismaeldf/golang-gobarber/database"
+	"ismaeldf/golang-gobarber/models"
 )
 
 type UsersRepository struct {}
