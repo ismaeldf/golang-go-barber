@@ -7,6 +7,7 @@ func LoadRoutes() *mux.Router {
 
 	AppointmentsRouter(router)
 	UsersRouter(router)
+	SessionsRouter(router)
 
 	return router
 }
