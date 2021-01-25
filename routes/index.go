@@ -6,6 +6,7 @@ func LoadRoutes() *mux.Router {
 	router := mux.NewRouter()
 
 	AppointmentsRouter(router)
+	UsersRouter(router)
 
 	return router
 }
