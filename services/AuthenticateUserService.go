@@ -7,6 +7,7 @@ import (
 	"ismaeldf.melo/golang/go-barber/models"
 	"ismaeldf.melo/golang/go-barber/repositories"
 	"log"
+	"strings"
 	"time"
 )
 
@@ -54,7 +55,7 @@ func (s *authenticateUserService) Execute(email string, password string) (*Respo
 }
 
 func createToken(userId string) string{
-	var expirationTime = time.Now().Add(1 * time.Hour).Unix()
+	var expirationTime = time.Now().Add(24 * time.Hour).Unix()
 
 	claims := MyCustomClaims{
 		Id: userId,
@@ -73,17 +74,19 @@ func createToken(userId string) string{
 	return tokenString
 }
 
-//func (s *authenticateUserService) DecodeToken(tokenString string){
-//	token, err := jwt.ParseWithClaims(tokenString, &MyCustomClaims{}, func(token *jwt.Token) (interface{}, error) {
-//		return mySigningKey, nil
-//	})
-//
-//	if claims, ok := token.Claims.(*MyCustomClaims); ok && token.Valid {
-//		fmt.Printf("%v %v", claims.Id, claims.StandardClaims.ExpiresAt)
-//	} else {
-//		fmt.Println(err)
-//	}
-//}
+func DecodeToken(tokenString string) (*string, error){
+	removedBearer := strings.Trim(strings.ReplaceAll(tokenString, "Bearer", ""), " ")
+
+	token, err := jwt.ParseWithClaims(removedBearer, &MyCustomClaims{}, func(token *jwt.Token) (interface{}, error) {
+		return mySigningKey, nil
+	})
+
+	if claims, ok := token.Claims.(*MyCustomClaims); ok && token.Valid {
+		return &claims.Id, nil
+	} else {
+		return nil, err
+	}
+}
 
 func isCorrectPassword(user models.User, password string) bool {
 	err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password))

@@ -1,13 +1,15 @@
 package routes
 
-import "github.com/gorilla/mux"
+import (
+	"github.com/gorilla/mux"
+)
 
 func LoadRoutes() *mux.Router {
-	router := mux.NewRouter()
+	router := mux.NewRouter().StrictSlash(true)
 
-	AppointmentsRouter(router)
 	UsersRouter(router)
 	SessionsRouter(router)
+	AppointmentsRouter(router)
 
 	return router
 }

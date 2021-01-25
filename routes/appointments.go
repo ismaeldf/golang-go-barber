@@ -3,8 +3,10 @@ package routes
 import (
 	"encoding/json"
 	"github.com/gorilla/mux"
+	"github.com/urfave/negroni"
 	"io/ioutil"
 	"ismaeldf.melo/golang/go-barber/database"
+	"ismaeldf.melo/golang/go-barber/middlewares"
 	"ismaeldf.melo/golang/go-barber/models"
 	"ismaeldf.melo/golang/go-barber/repositories"
 	"ismaeldf.melo/golang/go-barber/services"
@@ -44,6 +46,13 @@ func listAppointment(w http.ResponseWriter, r *http.Request) {
 
 func AppointmentsRouter(router *mux.Router) {
 	path := "/appointments"
-	router.HandleFunc(path, createAppointment).Methods("POST")
-	router.HandleFunc(path, listAppointment).Methods("GET")
+
+	subRouter := mux.NewRouter().PathPrefix(path).Subrouter().StrictSlash(true)
+	subRouter.HandleFunc("", createAppointment).Methods("POST")
+	subRouter.HandleFunc("", listAppointment).Methods("GET")
+
+	router.PathPrefix(path).Handler(negroni.New(
+		middlewares.EnsureAuthenticated(),
+		negroni.Wrap(subRouter),
+	))
 }
