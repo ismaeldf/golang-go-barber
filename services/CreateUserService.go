@@ -16,7 +16,7 @@ func NewCreateUserService(repository *repositories.UsersRepository) *createUserS
 
 func (s *createUserService) Execute(user models.User) (*models.User, error) {
 	find := s.usersRepository.FindByEmail(user.Email)
-	if find.ID != "" {
+	if find.Id != "" {
 		return nil, errors.New("This email is already in use")
 	}
 

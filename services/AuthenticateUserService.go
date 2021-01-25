@@ -35,7 +35,7 @@ func NewAuthenticateUserService(repository *repositories.UsersRepository) *authe
 
 func (s *authenticateUserService) Execute(email string, password string) (*ResponseAuthenticateUser, error) {
 	user := s.usersRepository.FindByEmail(email)
-	if user.ID == "" {
+	if user.Id == "" {
 		return nil, errors.New(errorMsg)
 	}
 
@@ -44,7 +44,7 @@ func (s *authenticateUserService) Execute(email string, password string) (*Respo
 		return nil, errors.New(errorMsg)
 	}
 
-	token := createToken(user.ID)
+	token := createToken(user.Id)
 
 	response := ResponseAuthenticateUser{
 		User: user,

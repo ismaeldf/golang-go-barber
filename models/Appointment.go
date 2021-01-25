@@ -8,7 +8,7 @@ import (
 
 type Appointment struct {
 	gorm.Model
-	ID         string    `json:"id" gorm:"type:uuid;primary_key"`
+	Id         string    `json:"id" gorm:"type:uuid;primary_key"`
 	ProviderId string    `json:"provider_id"`
 	Provider   User      `gorm:"foreignKey:ProviderId;constraint:OnUpdate:CASCADE,OnDelete:SET NULL"`
 	Date       time.Time `json:"date" gorm:"notnull"`
@@ -18,7 +18,7 @@ type Appointment struct {
 
 func NewAppointment(providerId string, date time.Time) *Appointment {
 	return &Appointment{
-		ID:         uuid.NewV4().String(),
+		Id:         uuid.NewV4().String(),
 		ProviderId: providerId,
 		Date:       date,
 	}

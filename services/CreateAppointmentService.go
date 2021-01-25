@@ -19,7 +19,7 @@ func (s *createAppointmentService) Execute(appointment models.Appointment) (*mod
 	appointment.Date = startOfHour(appointment.Date)
 
 	find := s.appointmentRepository.FindByDate(appointment.Date)
-	if find.ID != "" {
+	if find.Id != "" {
 		return nil, errors.New("This appointment is already booked")
 	}
 
