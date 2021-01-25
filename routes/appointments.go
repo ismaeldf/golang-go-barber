@@ -23,10 +23,7 @@ func createAppointment(w http.ResponseWriter, r *http.Request) {
 
 	appointmentService := services.NewCreateAppointmentService(&appointmentRepository)
 
-	appointmentCreated, err := appointmentService.Execute(services.RequestCreateAppointment{
-		ProviderId: appointment.ProviderId,
-		Date: appointment.Date,
-	})
+	appointmentCreated, err := appointmentService.Execute(appointment)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return

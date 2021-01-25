@@ -7,11 +7,6 @@ import (
 	"time"
 )
 
-type RequestCreateAppointment struct {
-	ProviderId string
-	Date time.Time
-}
-
 type createAppointmentService struct {
 	appointmentRepository *repositories.AppointmentsRepository
 }
@@ -20,23 +15,20 @@ func NewCreateAppointmentService(repository *repositories.AppointmentsRepository
 	return &createAppointmentService{repository}
 }
 
-func (s *createAppointmentService) Execute(data RequestCreateAppointment) (*models.Appointment, error) {
-	appointmentDate := startOfHour(data.Date)
+func (s *createAppointmentService) Execute(appointment models.Appointment) (*models.Appointment, error) {
+	appointment.Date = startOfHour(appointment.Date)
 
-	find := s.appointmentRepository.FindByDate(appointmentDate)
+	find := s.appointmentRepository.FindByDate(appointment.Date)
 	if find.ID != "" {
 		return nil, errors.New("This appointment is already booked")
 	}
 
-	appointment, err := s.appointmentRepository.Create(repositories.AppointmentRepositoryDTO{
-		ProviderId: data.ProviderId,
-		Date:     appointmentDate,
-	})
+	appointmentCreated, err := s.appointmentRepository.Create(appointment)
 	if err != nil {
 		return nil, err
 	}
 
-	return appointment, nil
+	return appointmentCreated, nil
 }
 
 func startOfHour(date time.Time) time.Time {

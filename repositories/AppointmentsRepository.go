@@ -6,11 +6,6 @@ import (
 	"time"
 )
 
-type AppointmentRepositoryDTO struct {
-	ProviderId string
-	Date time.Time
-}
-
 type AppointmentsRepository struct {
 	DB *gorm.DB
 }
@@ -22,7 +17,7 @@ func (r *AppointmentsRepository) FindByDate(date time.Time) models.Appointment {
 	return appointment
 }
 
-func (r *AppointmentsRepository) Create(data AppointmentRepositoryDTO) (*models.Appointment, error) {
+func (r *AppointmentsRepository) Create(data models.Appointment) (*models.Appointment, error) {
 	appointment := models.NewAppointment(data.ProviderId, data.Date)
 
 	err := r.DB.Create(appointment).Error

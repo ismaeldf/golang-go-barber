@@ -23,11 +23,7 @@ func createUser(w http.ResponseWriter, r *http.Request) {
 
 	createUserService := services.NewCreateUserService(&usersRepository)
 
-	userCreated, err := createUserService.Execute(services.RequestCreateUser{
-		Name: user.Name,
-		Email: user.Email,
-		Password: user.Password,
-	})
+	userCreated, err := createUserService.Execute(user)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
