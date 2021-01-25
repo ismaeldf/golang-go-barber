@@ -8,7 +8,7 @@ import (
 )
 
 type Request struct {
-	Provider string
+	ProviderId string
 	Date time.Time
 }
 
@@ -29,7 +29,7 @@ func (s *createAppointmentService) Execute(data Request) (models.Appointment, er
 	}
 
 	appointment, err := s.appointmentRepository.Create(repositories.AppointmentRepositoryDTO{
-		Provider: data.Provider,
+		ProviderId: data.ProviderId,
 		Date:     appointmentDate,
 	})
 	if err != nil {

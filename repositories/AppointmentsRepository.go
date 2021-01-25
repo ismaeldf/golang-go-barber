@@ -7,7 +7,7 @@ import (
 )
 
 type AppointmentRepositoryDTO struct {
-	Provider string
+	ProviderId string
 	Date time.Time
 }
 
@@ -23,7 +23,7 @@ func (r *AppointmentsRepository) FindByDate(date time.Time) models.Appointment {
 }
 
 func (r *AppointmentsRepository) Create(data AppointmentRepositoryDTO) (*models.Appointment, error) {
-	appointment := models.NewAppointment(data.Provider, data.Date)
+	appointment := models.NewAppointment(data.ProviderId, data.Date)
 
 	err := r.DB.Create(appointment).Error
 	if err != nil{

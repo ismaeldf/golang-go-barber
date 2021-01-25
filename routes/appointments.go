@@ -2,7 +2,6 @@ package routes
 
 import (
 	"encoding/json"
-	"fmt"
 	"github.com/gorilla/mux"
 	"io/ioutil"
 	"ismaeldf.melo/golang/go-barber/database"
@@ -20,16 +19,12 @@ func createAppointment(w http.ResponseWriter, r *http.Request) {
 	b, _ := ioutil.ReadAll(r.Body)
 
 	appointment := models.Appointment{}
-	err := json.Unmarshal(b, &appointment)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
+	_ = json.Unmarshal(b, &appointment)
 
 	appointmentService := services.NewCreateAppointmentService(&appointmentRepository)
 
 	appointmentCreated, err := appointmentService.Execute(services.Request{
-		Provider: appointment.Provider,
+		ProviderId: appointment.ProviderId,
 		Date: appointment.Date,
 	})
 	if err != nil {
@@ -37,23 +32,15 @@ func createAppointment(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	js, err := json.Marshal(appointmentCreated)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
+	js, _ := json.Marshal(appointmentCreated)
 
 	w.Write(js)
 }
 
 func listAppointment(w http.ResponseWriter, r *http.Request) {
 	appointments := appointmentRepository.All()
-	fmt.Print(appointments)
-	js, err := json.Marshal(appointments)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
+
+	js, _ := json.Marshal(appointments)
 
 	w.Write(js)
 }
