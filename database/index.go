@@ -6,16 +6,18 @@ import (
 	"log"
 )
 
-func CreateConnectionDB() *gorm.DB {
+var DB *gorm.DB
+
+func CreateConnectionDB() {
 	dsn := "host=localhost user=postgres password=postgres dbname=gobarber port=5432 sslmode=disable TimeZone=America/Sao_Paulo"
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 
 	if err != nil {
-		log.Fatalf("Error connecting to database: %v", err)
+		log.Fatalf("Error connecting to database")
 		panic(err)
 	}
 
 	RunMigrations(db)
 
-	return db
+	DB = db
 }

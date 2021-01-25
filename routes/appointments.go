@@ -5,7 +5,6 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/urfave/negroni"
 	"io/ioutil"
-	"ismaeldf.melo/golang/go-barber/database"
 	"ismaeldf.melo/golang/go-barber/middlewares"
 	"ismaeldf.melo/golang/go-barber/models"
 	"ismaeldf.melo/golang/go-barber/repositories"
@@ -13,9 +12,7 @@ import (
 	"net/http"
 )
 
-var appointmentRepository = repositories.AppointmentsRepository{
-	DB: database.CreateConnectionDB(),
-}
+var appointmentRepository = repositories.AppointmentsRepository{}
 
 func createAppointment(w http.ResponseWriter, r *http.Request) {
 	b, _ := ioutil.ReadAll(r.Body)

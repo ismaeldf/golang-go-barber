@@ -1,18 +1,17 @@
 package repositories
 
 import (
-	"gorm.io/gorm"
+	"ismaeldf.melo/golang/go-barber/database"
 	"ismaeldf.melo/golang/go-barber/models"
 	"time"
 )
 
-type AppointmentsRepository struct {
-	DB *gorm.DB
-}
+type AppointmentsRepository struct {}
 
 func (r *AppointmentsRepository) FindByDate(date time.Time) models.Appointment {
 	var appointment models.Appointment
-	r.DB.Where("date = ?", date).Find(&appointment)
+
+	database.DB.Where("date = ?", date).Find(&appointment)
 
 	return appointment
 }
@@ -20,7 +19,7 @@ func (r *AppointmentsRepository) FindByDate(date time.Time) models.Appointment {
 func (r *AppointmentsRepository) Create(data models.Appointment) (*models.Appointment, error) {
 	appointment := models.NewAppointment(data.ProviderId, data.Date)
 
-	err := r.DB.Create(appointment).Error
+	err := database.DB.Create(appointment).Error
 	if err != nil{
 		return nil, err
 	}
@@ -31,7 +30,7 @@ func (r *AppointmentsRepository) Create(data models.Appointment) (*models.Appoin
 func (r *AppointmentsRepository) All() []models.Appointment {
 	var appointments[] models.Appointment
 
-	r.DB.Find(&appointments)
+	database.DB.Find(&appointments)
 
 	return appointments
 }

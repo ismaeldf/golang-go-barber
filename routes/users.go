@@ -4,16 +4,13 @@ import (
 	"encoding/json"
 	"github.com/gorilla/mux"
 	"io/ioutil"
-	"ismaeldf.melo/golang/go-barber/database"
 	"ismaeldf.melo/golang/go-barber/models"
 	"ismaeldf.melo/golang/go-barber/repositories"
 	"ismaeldf.melo/golang/go-barber/services"
 	"net/http"
 )
 
-var usersRepository = repositories.UsersRepository{
-	DB: database.CreateConnectionDB(),
-}
+var usersRepository = repositories.UsersRepository{}
 
 func createUser(w http.ResponseWriter, r *http.Request) {
 	b, _ := ioutil.ReadAll(r.Body)

@@ -1,17 +1,16 @@
 package repositories
 
 import (
-	"gorm.io/gorm"
+	"ismaeldf.melo/golang/go-barber/database"
 	"ismaeldf.melo/golang/go-barber/models"
 )
 
-type UsersRepository struct {
-	DB *gorm.DB
-}
+type UsersRepository struct {}
 
 func (r *UsersRepository) FindByEmail(email string) models.User {
 	var user models.User
-	r.DB.Where("email = ?", email).Find(&user)
+
+	database.DB.Where("email = ?", email).Find(&user)
 
 	return user
 }
@@ -19,7 +18,7 @@ func (r *UsersRepository) FindByEmail(email string) models.User {
 func (r *UsersRepository) Create(data models.User) (*models.User, error){
 	user := models.NewUser(data.Name, data.Email, data.Password)
 
-	err := r.DB.Create(user).Error
+	err := database.DB.Create(user).Error
 	if err != nil{
 		return nil, err
 	}
