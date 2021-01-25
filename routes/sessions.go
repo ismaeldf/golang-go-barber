@@ -21,13 +21,13 @@ func authenticate(w http.ResponseWriter, r *http.Request) {
 
 	authenticateUserService := services.NewAuthenticateUserService(&usersRepository)
 
-	user, err := authenticateUserService.Execute(body.Email, body.Password)
+	userAuthenticated, err := authenticateUserService.Execute(body.Email, body.Password)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 
-	js, _ := json.Marshal(user)
+	js, _ := json.Marshal(userAuthenticated)
 
 	w.Write(js)
 }
