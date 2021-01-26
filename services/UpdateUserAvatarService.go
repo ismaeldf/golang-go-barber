@@ -8,7 +8,7 @@ import (
 	"strings"
 )
 
-var FileDirectory = "tmp/"
+var FileDirectory = "images/"
 
 type updateUserAvatarService struct {
 	usersRepository *repositories.UsersRepository

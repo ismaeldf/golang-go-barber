@@ -2,6 +2,7 @@ package routes
 
 import (
 	"github.com/gorilla/mux"
+	"ismaeldf/golang-gobarber/services"
 	"net/http"
 )
 
@@ -11,7 +12,7 @@ func LoadRoutes() *mux.Router {
 	router.HandleFunc("/", welcome)
 
 	router.Handle("/files/{rest}",
-		http.StripPrefix("/files/", http.FileServer(http.Dir("tmp/"))))
+		http.StripPrefix("/files/", http.FileServer(http.Dir(services.FileDirectory))))
 
 	UsersRouter(router)
 	SessionsRouter(router)
