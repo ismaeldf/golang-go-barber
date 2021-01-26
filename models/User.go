@@ -11,17 +11,18 @@ type User struct {
 	Name      string    `json:"name" gorm:"notnull"`
 	Email     string    `json:"email" gorm:"notnull;unique"`
 	Password  string    `json:"-" gorm:"notnull"`
+	Avatar    string    `json:"avatar"`
 	CreatedAt time.Time `json:"create_at" gorm:"autoCreateTime"`
 	UpdatedAt time.Time `json:"updated_at" gorm:"autoUpdateTime"`
 }
 
-func NewUser(name string, email string, password string) *User{
+func NewUser(name string, email string, password string) *User {
 	hashedPassword, _ := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 
 	return &User{
-		Id: uuid.NewV4().String(),
-		Name: name,
-		Email: email,
+		Id:       uuid.NewV4().String(),
+		Name:     name,
+		Email:    email,
 		Password: string(hashedPassword),
 	}
 }

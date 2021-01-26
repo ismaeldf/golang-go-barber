@@ -7,6 +7,20 @@ import (
 
 type UsersRepository struct {}
 
+func (r *UsersRepository) UpdateAvatar(user models.User) models.User {
+	database.DB.Model(models.User{}).Where("id = ?", user.Id).Update("Avatar", user.Avatar)
+
+	return user
+}
+
+func (r *UsersRepository) FindById(id string) models.User {
+	var user models.User
+
+	database.DB.Where("id = ?", id).Find(&user)
+
+	return user
+}
+
 func (r *UsersRepository) FindByEmail(email string) models.User {
 	var user models.User
 
