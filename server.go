@@ -1,14 +1,14 @@
 package main
 
 import (
-	"ismaeldf/golang-gobarber/database"
-	"ismaeldf/golang-gobarber/routes"
+	"ismaeldf/golang-gobarber/shared/infra/gorm"
+	"ismaeldf/golang-gobarber/shared/infra/http/routes"
 	"log"
 	"net/http"
 )
 
 func main(){
-	database.CreateConnectionDB()
+	gorm.CreateConnectionDB()
 
 	router := routes.LoadRoutes()
 
