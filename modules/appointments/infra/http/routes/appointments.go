@@ -1,43 +1,22 @@
 package routes
 
 import (
-	"encoding/json"
 	"github.com/gorilla/mux"
 	"github.com/urfave/negroni"
-	"io/ioutil"
-	"ismaeldf/golang-gobarber/modules/appointments/infra/gorm/entities"
-	. "ismaeldf/golang-gobarber/modules/appointments/infra/gorm/repositories"
-	. "ismaeldf/golang-gobarber/modules/appointments/services"
+	"ismaeldf/golang-gobarber/modules/appointments/infra/http/controllers"
 	"ismaeldf/golang-gobarber/modules/users/infra/http/middlewares"
 	"net/http"
 )
 
-var appointmentRepository = AppointmentsRepository{}
+var appointmentController = controllers.AppointmentsController{}
 
 func createAppointment(w http.ResponseWriter, r *http.Request) {
-	b, _ := ioutil.ReadAll(r.Body)
-
-	appointment := entities.Appointment{}
-	_ = json.Unmarshal(b, &appointment)
-
-	appointmentService := NewCreateAppointmentService(&appointmentRepository)
-
-	appointmentCreated, err := appointmentService.Execute(appointment)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
-		return
-	}
-
-	js, _ := json.Marshal(appointmentCreated)
-
+	js := appointmentController.AppointmentCreate(w, r)
 	w.Write(js)
 }
 
 func listAppointment(w http.ResponseWriter, r *http.Request) {
-	appointments := appointmentRepository.All()
-
-	js, _ := json.Marshal(appointments)
-
+	js := appointmentController.AppointmentGet(w, r)
 	w.Write(js)
 }
 

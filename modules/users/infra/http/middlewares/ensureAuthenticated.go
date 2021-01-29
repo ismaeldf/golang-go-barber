@@ -3,7 +3,7 @@ package middlewares
 import (
 	"context"
 	"github.com/urfave/negroni"
-	services2 "ismaeldf/golang-gobarber/modules/users/services"
+	userServices "ismaeldf/golang-gobarber/modules/users/services"
 	"net/http"
 )
 
@@ -34,7 +34,7 @@ func EnsureAuthenticated() negroni.Handler {
 			return
 		}
 
-		id, err := services2.DecodeToken(authHeader)
+		id, err := userServices.DecodeToken(authHeader)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusUnauthorized)
 			return
