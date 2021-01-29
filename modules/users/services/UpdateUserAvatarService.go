@@ -3,7 +3,7 @@ package services
 import (
 	"errors"
 	"ismaeldf/golang-gobarber/modules/users/infra/gorm/entities"
-	repositories2 "ismaeldf/golang-gobarber/modules/users/repositories"
+	"ismaeldf/golang-gobarber/modules/users/repositories"
 	"os"
 	"strings"
 )
@@ -11,13 +11,11 @@ import (
 var FileDirectory = "images/"
 
 type updateUserAvatarService struct {
-	usersRepository *repositories2.UsersRepository
+	usersRepository repositories.IUserRepository
 }
 
-func NewUpdateUserAvatarService(repository *repositories2.UsersRepository) *updateUserAvatarService {
-	return &updateUserAvatarService{
-		usersRepository: repository,
-	}
+func NewUpdateUserAvatarService(repository repositories.IUserRepository) *updateUserAvatarService {
+	return &updateUserAvatarService{usersRepository: repository}
 }
 
 func (s *updateUserAvatarService) Execute(userId string, filename string) (*entities.User, error) {
@@ -30,7 +28,7 @@ func (s *updateUserAvatarService) Execute(userId string, filename string) (*enti
 
 	user.Avatar = normalizeFilename(filename)
 
-	userUpdated := s.usersRepository.UpdateAvatar(user)
+	userUpdated := s.usersRepository.Update(user)
 
 	return &userUpdated, nil
 }

@@ -3,14 +3,14 @@ package services
 import (
 	"errors"
 	"ismaeldf/golang-gobarber/modules/users/infra/gorm/entities"
-	repositories2 "ismaeldf/golang-gobarber/modules/users/repositories"
+	"ismaeldf/golang-gobarber/modules/users/repositories"
 )
 
 type createUserService struct {
-	usersRepository *repositories2.UsersRepository
+	usersRepository repositories.IUserRepository
 }
 
-func NewCreateUserService(repository *repositories2.UsersRepository) *createUserService {
+func NewCreateUserService(repository repositories.IUserRepository) *createUserService {
 	return &createUserService{repository}
 }
 

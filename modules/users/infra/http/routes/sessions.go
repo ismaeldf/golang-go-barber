@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"github.com/gorilla/mux"
 	"io/ioutil"
-	services2 "ismaeldf/golang-gobarber/modules/users/services"
+	. "ismaeldf/golang-gobarber/modules/users/services"
 	"net/http"
 )
 
@@ -19,7 +19,7 @@ func authenticate(w http.ResponseWriter, r *http.Request) {
 	body := requestDTO{}
 	_ = json.Unmarshal(b, &body)
 
-	authenticateUserService := services2.NewAuthenticateUserService(&usersRepository)
+	authenticateUserService := NewAuthenticateUserService(&usersRepository)
 
 	userAuthenticated, err := authenticateUserService.Execute(body.Email, body.Password)
 	if err != nil {

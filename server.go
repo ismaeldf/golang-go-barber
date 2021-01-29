@@ -12,9 +12,6 @@ func main(){
 
 	router := routes.LoadRoutes()
 
-
-	//http.Handle("/", http.StripPrefix("/", http.FileServer(http.Dir("tmp"))))
-
 	err := http.ListenAndServe(":3333", router)
 	if err != nil{
 		log.Fatalf("Error starting server.")

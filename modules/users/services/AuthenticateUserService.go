@@ -5,7 +5,7 @@ import (
 	"github.com/dgrijalva/jwt-go"
 	"golang.org/x/crypto/bcrypt"
 	"ismaeldf/golang-gobarber/modules/users/infra/gorm/entities"
-	repositories2 "ismaeldf/golang-gobarber/modules/users/repositories"
+	"ismaeldf/golang-gobarber/modules/users/repositories"
 	"log"
 	"strings"
 	"time"
@@ -24,13 +24,13 @@ type MyCustomClaims struct {
 }
 
 type authenticateUserService struct {
-	usersRepository *repositories2.UsersRepository
+	usersRepository repositories.IUserRepository
 }
 
 const errorMsg = "Incorrect Email/Password combination"
 
-func NewAuthenticateUserService(repository *repositories2.UsersRepository) *authenticateUserService {
-	return &authenticateUserService{repository}
+func NewAuthenticateUserService(repository repositories.IUserRepository) *authenticateUserService {
+	return &authenticateUserService{usersRepository: repository}
 }
 
 func (s *authenticateUserService) Execute(email string, password string) (*ResponseAuthenticateUser, error) {

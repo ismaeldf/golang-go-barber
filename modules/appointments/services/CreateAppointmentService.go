@@ -3,16 +3,16 @@ package services
 import (
 	"errors"
 	"ismaeldf/golang-gobarber/modules/appointments/infra/gorm/entities"
-	repositories2 "ismaeldf/golang-gobarber/modules/appointments/repositories"
+	"ismaeldf/golang-gobarber/modules/appointments/repositories"
 	"time"
 )
 
 type createAppointmentService struct {
-	appointmentRepository *repositories2.AppointmentsRepository
+	appointmentRepository repositories.IAppointmentsRepository
 }
 
-func NewCreateAppointmentService(repository *repositories2.AppointmentsRepository) *createAppointmentService {
-	return &createAppointmentService{repository}
+func NewCreateAppointmentService(repository repositories.IAppointmentsRepository) *createAppointmentService {
+	return &createAppointmentService{appointmentRepository: repository}
 }
 
 func (s *createAppointmentService) Execute(appointment entities.Appointment) (*entities.Appointment, error) {

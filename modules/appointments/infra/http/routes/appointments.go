@@ -6,13 +6,13 @@ import (
 	"github.com/urfave/negroni"
 	"io/ioutil"
 	"ismaeldf/golang-gobarber/modules/appointments/infra/gorm/entities"
-	repositories2 "ismaeldf/golang-gobarber/modules/appointments/repositories"
-	services2 "ismaeldf/golang-gobarber/modules/appointments/services"
+	. "ismaeldf/golang-gobarber/modules/appointments/infra/gorm/repositories"
+	. "ismaeldf/golang-gobarber/modules/appointments/services"
 	"ismaeldf/golang-gobarber/modules/users/infra/http/middlewares"
 	"net/http"
 )
 
-var appointmentRepository = repositories2.AppointmentsRepository{}
+var appointmentRepository = AppointmentsRepository{}
 
 func createAppointment(w http.ResponseWriter, r *http.Request) {
 	b, _ := ioutil.ReadAll(r.Body)
@@ -20,7 +20,7 @@ func createAppointment(w http.ResponseWriter, r *http.Request) {
 	appointment := entities.Appointment{}
 	_ = json.Unmarshal(b, &appointment)
 
-	appointmentService := services2.NewCreateAppointmentService(&appointmentRepository)
+	appointmentService := NewCreateAppointmentService(&appointmentRepository)
 
 	appointmentCreated, err := appointmentService.Execute(appointment)
 	if err != nil {

@@ -6,13 +6,13 @@ import (
 	"github.com/urfave/negroni"
 	"io/ioutil"
 	"ismaeldf/golang-gobarber/modules/users/infra/gorm/entities"
+	. "ismaeldf/golang-gobarber/modules/users/infra/gorm/repositories"
 	"ismaeldf/golang-gobarber/modules/users/infra/http/middlewares"
-	repositories2 "ismaeldf/golang-gobarber/modules/users/repositories"
 	services2 "ismaeldf/golang-gobarber/modules/users/services"
 	"net/http"
 )
 
-var usersRepository = repositories2.UsersRepository{}
+var usersRepository = UsersRepository{}
 
 func createUser(w http.ResponseWriter, r *http.Request) {
 	b, _ := ioutil.ReadAll(r.Body)
