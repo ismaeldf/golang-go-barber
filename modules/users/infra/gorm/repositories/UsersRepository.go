@@ -29,7 +29,7 @@ func (r *UsersRepository) FindByEmail(email string) entities.User {
 	return user
 }
 
-func (r *UsersRepository) Create(data entities.User) (*entities.User, error){
+func (r *UsersRepository) Create(data entities.UserUnhide) (*entities.User, error){
 	user := entities.NewUser(data.Name, data.Email, data.Password)
 
 	err := gorm.DB.Create(user).Error

@@ -16,6 +16,11 @@ type User struct {
 	UpdatedAt time.Time `json:"updated_at" gorm:"autoUpdateTime"`
 }
 
+type UserUnhide struct {
+	Password  string    `json:"password" gorm:"notnull"`
+	User
+}
+
 func NewUser(name string, email string, password string) *User {
 	hashedPassword, _ := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 

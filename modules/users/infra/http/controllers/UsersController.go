@@ -17,7 +17,7 @@ type UsersController struct{}
 func (c UsersController) UsersCreate(w http.ResponseWriter, r *http.Request) []byte {
 	b, _ := ioutil.ReadAll(r.Body)
 
-	user := entities.User{}
+	user := entities.UserUnhide{}
 	_ = json.Unmarshal(b, &user)
 
 	createUserService := services.NewCreateUserService(&usersControllerRepository)

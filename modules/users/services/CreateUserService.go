@@ -14,7 +14,7 @@ func NewCreateUserService(repository repositories.IUserRepository) *createUserSe
 	return &createUserService{repository}
 }
 
-func (s *createUserService) Execute(user entities.User) (*entities.User, error) {
+func (s *createUserService) Execute(user entities.UserUnhide) (*entities.User, error) {
 	find := s.usersRepository.FindByEmail(user.Email)
 	if find.Id != "" {
 		return nil, errors.New("This email is already in use")
