@@ -23,10 +23,7 @@ func (s *createAppointmentService) Execute(appointment entities.Appointment) (*e
 		return nil, errors.New("This appointment is already booked")
 	}
 
-	appointmentCreated, err := s.appointmentRepository.Create(appointment)
-	if err != nil {
-		return nil, err
-	}
+	appointmentCreated, _ := s.appointmentRepository.Create(appointment)
 
 	return appointmentCreated, nil
 }

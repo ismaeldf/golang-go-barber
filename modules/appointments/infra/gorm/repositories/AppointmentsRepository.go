@@ -17,12 +17,12 @@ func (r *AppointmentsRepository) FindByDate(date time.Time) entities.Appointment
 }
 
 func (r *AppointmentsRepository) Create(data entities.Appointment) (*entities.Appointment, error) {
-	appointment := entities.NewAppointment(data.ProviderId, data.Date)
-
-	err := gorm.DB.Create(appointment).Error
+	appointment, err := entities.NewAppointment(data.ProviderId, data.Date)
 	if err != nil{
 		return nil, err
 	}
+
+	_ = gorm.DB.Create(appointment).Error
 
 	return appointment, nil
 }
