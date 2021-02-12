@@ -5,11 +5,11 @@ import (
 	"time"
 )
 
-type AppointmentsRepository struct {
+type FakeAppointmentsRepository struct {
 	appointments []entities.Appointment
 }
 
-func (r *AppointmentsRepository) FindByDate(date time.Time) entities.Appointment {
+func (r *FakeAppointmentsRepository) FindByDate(date time.Time) entities.Appointment {
 	var appointment entities.Appointment
 
 	for _, a := range r.appointments{
@@ -21,7 +21,7 @@ func (r *AppointmentsRepository) FindByDate(date time.Time) entities.Appointment
 	return appointment
 }
 
-func (r *AppointmentsRepository) Create(data entities.Appointment) (*entities.Appointment, error) {
+func (r *FakeAppointmentsRepository) Create(data entities.Appointment) (*entities.Appointment, error) {
 	appointment, err := entities.NewAppointment(data.ProviderId, data.Date)
 	if err != nil{
 		return nil, err
@@ -32,6 +32,6 @@ func (r *AppointmentsRepository) Create(data entities.Appointment) (*entities.Ap
 	return appointment, nil
 }
 
-func (r *AppointmentsRepository) All() []entities.Appointment {
+func (r *FakeAppointmentsRepository) All() []entities.Appointment {
 	return r.appointments
 }

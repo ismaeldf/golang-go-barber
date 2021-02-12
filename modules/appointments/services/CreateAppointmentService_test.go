@@ -12,7 +12,7 @@ import (
 
 func TestCreateAppointmentService_Execute(t *testing.T) {
 	t.Run("should be able to create a new appointment", func(t *testing.T) {
-		apppointmentsRepository := fakesApppointmentsRepository.AppointmentsRepository{}
+		apppointmentsRepository := fakesApppointmentsRepository.FakeAppointmentsRepository{}
 
 		appointmentService := services.NewCreateAppointmentService(&apppointmentsRepository)
 
@@ -24,7 +24,7 @@ func TestCreateAppointmentService_Execute(t *testing.T) {
 	})
 
 	t.Run("should not be able to create two appointments in the same time", func(t *testing.T) {
-		apppointmentsRepository := fakesApppointmentsRepository.AppointmentsRepository{}
+		apppointmentsRepository := fakesApppointmentsRepository.FakeAppointmentsRepository{}
 
 		appointmentService := services.NewCreateAppointmentService(&apppointmentsRepository)
 

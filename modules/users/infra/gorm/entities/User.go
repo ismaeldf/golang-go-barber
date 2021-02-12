@@ -30,7 +30,7 @@ func (u *User) isValid() error {
 
 
 type UserUnhide struct {
-	Password  string    `json:"password" gorm:"notnull"`
+	Password  string    `json:"password" gorm:"notnull" validate:"required"`
 	User
 }
 
