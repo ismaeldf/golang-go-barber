@@ -23,7 +23,7 @@ func (a *Appointment) isValid() error {
 	v := validator.New()
 	err := v.Struct(a)
 	if err != nil {
-		fmt.Errorf("Error during Transaction validation: %s", err.Error())
+		fmt.Errorf("Error during Appointment validation: %s", err.Error())
 		return err
 	}
 	return nil
@@ -34,6 +34,7 @@ func NewAppointment(providerId string, date time.Time) (*Appointment, error) {
 		Id:         uuid.NewV4().String(),
 		ProviderId: providerId,
 		Date:       date,
+		CreatedAt: time.Now(),
 	}
 
 	err := appointment.isValid()

@@ -30,12 +30,12 @@ func (r *UsersRepository) FindByEmail(email string) entities.User {
 }
 
 func (r *UsersRepository) Create(data entities.UserUnhide) (*entities.User, error){
-	user := entities.NewUser(data.Name, data.Email, data.Password)
-
-	err := gorm.DB.Create(user).Error
+	user, err := entities.NewUser(data.Name, data.Email, data.Password)
 	if err != nil{
 		return nil, err
 	}
+
+	_ = gorm.DB.Create(user).Error
 
 	return user, nil
 }
