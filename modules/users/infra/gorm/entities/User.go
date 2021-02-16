@@ -2,27 +2,31 @@ package entities
 
 import (
 	"fmt"
-	"github.com/go-playground/validator/v10"
 	uuid "github.com/satori/go.uuid"
+	"github.com/asaskevich/govalidator"
 	"golang.org/x/crypto/bcrypt"
 	"time"
 )
 
+func init() {
+	govalidator.SetFieldsRequiredByDefault(true)
+}
+
 type User struct {
-	Id        string    `json:"id" gorm:"type:uuid;primary_key"`
-	Name      string    `json:"name" gorm:"notnull" validate:"required"`
-	Email     string    `json:"email" gorm:"notnull;unique" validate:"required"`
-	Password  string    `json:"-" gorm:"notnull" validate:"required"`
-	Avatar    string    `json:"avatar"`
-	CreatedAt time.Time `json:"create_at" gorm:"autoCreateTime"`
-	UpdatedAt time.Time `json:"updated_at" gorm:"autoUpdateTime"`
+	Id        string    `json:"id" gorm:"type:uuid;primary_key" valid:"uuid"`
+	Name      string    `json:"name" gorm:"notnull" valid:"notnull"`
+	Email     string    `json:"email" gorm:"notnull;unique" valid:"email"`
+	Password  string    `json:"-" gorm:"notnull" valid:"notnull"`
+	Avatar    string    `json:"avatar" valid:"-"`
+	CreatedAt time.Time `json:"create_at" gorm:"autoCreateTime" valid:"-"`
+	UpdatedAt time.Time `json:"updated_at" gorm:"autoUpdateTime" valid:"-"`
 }
 
 func (u *User) isValid() error {
-	v := validator.New()
-	err := v.Struct(u)
+	_, err := govalidator.ValidateStruct(u)
+
 	if err != nil {
-		fmt.Errorf("Error during User validation: %s", err.Error())
+		fmt.Println(err)
 		return err
 	}
 	return nil

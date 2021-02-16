@@ -26,3 +26,9 @@ ismaeldf/golang-gobarber/modules/users/services/UpdateUserAvatarService.go:27.2,
 ismaeldf/golang-gobarber/modules/users/services/UpdateUserAvatarService.go:23.19,25.3 1 0
 ismaeldf/golang-gobarber/modules/users/services/UpdateUserAvatarService.go:36.48,38.2 1 0
 ismaeldf/golang-gobarber/modules/users/services/UpdateUserAvatarService.go:40.48,42.2 1 0
+ismaeldf/golang-gobarber/modules/users/infra/gorm/entities/User.go:21.32,24.16 3 1
+ismaeldf/golang-gobarber/modules/users/infra/gorm/entities/User.go:28.2,28.12 1 1
+ismaeldf/golang-gobarber/modules/users/infra/gorm/entities/User.go:24.16,27.3 2 1
+ismaeldf/golang-gobarber/modules/users/infra/gorm/entities/User.go:37.73,49.16 4 1
+ismaeldf/golang-gobarber/modules/users/infra/gorm/entities/User.go:53.2,53.19 1 1
+ismaeldf/golang-gobarber/modules/users/infra/gorm/entities/User.go:49.16,51.3 1 1

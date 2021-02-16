@@ -2,28 +2,30 @@ package entities
 
 import (
 	"fmt"
+	"github.com/asaskevich/govalidator"
 	uuid "github.com/satori/go.uuid"
-	"gorm.io/gorm"
 	"ismaeldf/golang-gobarber/modules/users/infra/gorm/entities"
-	"github.com/go-playground/validator/v10"
 	"time"
 )
 
+func init() {
+	govalidator.SetFieldsRequiredByDefault(true)
+}
+
 type Appointment struct {
-	gorm.Model
-	Id         string        `json:"id" gorm:"type:uuid;primary_key"`
-	ProviderId string        `json:"provider_id" validate:"required"`
-	Provider   entities.User `gorm:"foreignKey:ProviderId;constraint:OnUpdate:CASCADE,OnDelete:SET NULL"`
-	Date       time.Time     `json:"date" gorm:"notnull" validate:"required"`
-	CreatedAt  time.Time     `json:"create_at" gorm:"autoCreateTime"`
-	UpdatedAt  time.Time     `json:"updated_at" gorm:"autoUpdateTime"`
+	Id         string        `json:"id" gorm:"type:uuid;primary_key" valid:"-"`
+	ProviderId string        `json:"provider_id" valid:"notnull"`
+	Provider   entities.User `gorm:"foreignKey:ProviderId;constraint:OnUpdate:CASCADE,OnDelete:SET NULL" valid:"-"`
+	Date       time.Time     `json:"date" gorm:"notnull" valid:"-"`
+	CreatedAt  time.Time     `json:"create_at" gorm:"autoCreateTime" valid:"-"`
+	UpdatedAt  time.Time     `json:"updated_at" gorm:"autoUpdateTime" valid:"-"`
 }
 
 func (a *Appointment) isValid() error {
-	v := validator.New()
-	err := v.Struct(a)
+	_, err := govalidator.ValidateStruct(a)
+
 	if err != nil {
-		fmt.Errorf("Error during Appointment validation: %s", err.Error())
+		fmt.Println(err)
 		return err
 	}
 	return nil
@@ -31,11 +33,12 @@ func (a *Appointment) isValid() error {
 
 func NewAppointment(providerId string, date time.Time) (*Appointment, error) {
 	appointment := Appointment{
-		Id:         uuid.NewV4().String(),
 		ProviderId: providerId,
 		Date:       date,
-		CreatedAt: time.Now(),
 	}
+
+	appointment.Id = uuid.NewV4().String()
+	appointment.CreatedAt = time.Now()
 
 	err := appointment.isValid()
 	if err != nil {
