@@ -31,4 +31,35 @@ func TestAuthenticateUserService_Execute(t *testing.T) {
 		require.NotEqual(t, auth.Token, "")
 	})
 
+	t.Run("should be not able to authenticate with non exists user", func(t *testing.T) {
+		usersRepository := fakesUserRepository.FakeUsersRepository{}
+		fakeHashProvider := fakeHashProvider.FakeHashProvider{}
+
+		userAuthenticate := services.NewAuthenticateUserService(&usersRepository, &fakeHashProvider)
+
+		_, err := userAuthenticate.Execute("user-not-exists@email.com", "12345")
+
+		require.NotNil(t, err)
+	})
+
+	t.Run("should be not able to authenticate with wrong password", func(t *testing.T) {
+		usersRepository := fakesUserRepository.FakeUsersRepository{}
+		fakeHashProvider := fakeHashProvider.FakeHashProvider{}
+
+		userService := services.NewCreateUserService(&usersRepository, &fakeHashProvider)
+
+		user := entities.UserUnhide{}
+		user.Name = "Jhon Doe"
+		user.Email = "jhondoe@email.com"
+		user.Password = "12345"
+
+		_, _ = userService.Execute(user)
+
+		userAuthenticate := services.NewAuthenticateUserService(&usersRepository, &fakeHashProvider)
+
+		_, err := userAuthenticate.Execute(user.Email, "11111")
+
+		require.NotNil(t, err)
+	})
+
 }

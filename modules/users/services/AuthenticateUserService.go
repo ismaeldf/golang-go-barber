@@ -6,7 +6,6 @@ import (
 	"ismaeldf/golang-gobarber/modules/users/infra/gorm/entities"
 	providers "ismaeldf/golang-gobarber/modules/users/providers/HashProvider/models"
 	"ismaeldf/golang-gobarber/modules/users/repositories"
-	"log"
 	"strings"
 	"time"
 )
@@ -67,10 +66,7 @@ func createToken(userId string) string{
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 
-	tokenString, err := token.SignedString(mySigningKey)
-	if err !=nil {
-		log.Fatal(err)
-	}
+	tokenString, _ := token.SignedString(mySigningKey)
 
 	return tokenString
 }
