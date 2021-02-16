@@ -25,4 +25,35 @@ func TestCreateUserService_Execute(t *testing.T) {
 		require.Equal(t, userCreated.Name, user.Name)
 	})
 
+	t.Run("should be not able to create a new user with same email registered", func(t *testing.T) {
+		usersRepository := fakesUserRepository.FakeUsersRepository{}
+
+		userService := services.NewCreateUserService(&usersRepository)
+
+		user := entities.UserUnhide{}
+		user.Name = "Jhon Doe"
+		user.Email = "jhondoe@email.com"
+		user.Password = "12345"
+
+		_, _ = userService.Execute(user)
+
+		_, err := userService.Execute(user)
+
+		require.NotNil(t, err)
+	})
+
+	t.Run("should be not able to create a new user with not valid email", func(t *testing.T) {
+		usersRepository := fakesUserRepository.FakeUsersRepository{}
+
+		userService := services.NewCreateUserService(&usersRepository)
+
+		user := entities.UserUnhide{}
+		user.Name = "Jhon Doe"
+		user.Email = ""
+		user.Password = "12345"
+
+		_, err := userService.Execute(user)
+
+		require.NotNil(t, err)
+	})
 }
