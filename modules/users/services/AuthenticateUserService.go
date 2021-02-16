@@ -3,8 +3,8 @@ package services
 import (
 	"errors"
 	"github.com/dgrijalva/jwt-go"
-	"golang.org/x/crypto/bcrypt"
 	"ismaeldf/golang-gobarber/modules/users/infra/gorm/entities"
+	providers "ismaeldf/golang-gobarber/modules/users/providers/HashProvider/models"
 	"ismaeldf/golang-gobarber/modules/users/repositories"
 	"log"
 	"strings"
@@ -25,12 +25,13 @@ type MyCustomClaims struct {
 
 type authenticateUserService struct {
 	usersRepository repositories.IUserRepository
+	hashProvider providers.IHashProvider
 }
 
 const errorMsg = "Incorrect Email/Password combination"
 
-func NewAuthenticateUserService(repository repositories.IUserRepository) *authenticateUserService {
-	return &authenticateUserService{usersRepository: repository}
+func NewAuthenticateUserService(repository repositories.IUserRepository, hashProvider providers.IHashProvider) *authenticateUserService {
+	return &authenticateUserService{usersRepository: repository, hashProvider: hashProvider}
 }
 
 func (s *authenticateUserService) Execute(email string, password string) (*ResponseAuthenticateUser, error) {
@@ -39,7 +40,7 @@ func (s *authenticateUserService) Execute(email string, password string) (*Respo
 		return nil, errors.New(errorMsg)
 	}
 
-	passwordMatched := isCorrectPassword(user, password)
+	passwordMatched := s.isCorrectPassword(user, password)
 	if !passwordMatched {
 		return nil, errors.New(errorMsg)
 	}
@@ -88,9 +89,8 @@ func DecodeToken(tokenString string) (*string, error){
 	}
 }
 
-func isCorrectPassword(user entities.User, password string) bool {
-	err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password))
-	return err == nil
+func (a *authenticateUserService) isCorrectPassword(user entities.User, password string) bool {
+	return a.hashProvider.CompareHash(password, user.Password)
 }
 
 

@@ -6,11 +6,13 @@ import (
 	"ismaeldf/golang-gobarber/modules/users/infra/gorm/entities"
 	"ismaeldf/golang-gobarber/modules/users/infra/gorm/repositories"
 	"ismaeldf/golang-gobarber/modules/users/infra/http/middlewares"
+	"ismaeldf/golang-gobarber/modules/users/providers/HashProvider/implementations"
 	"ismaeldf/golang-gobarber/modules/users/services"
 	"net/http"
 )
 
 var usersControllerRepository = repositories.UsersRepository{}
+var usersControllerHashProvider = implementations.BCryptHashProvider{}
 
 type UsersController struct{}
 
@@ -20,7 +22,7 @@ func (c UsersController) UsersCreate(w http.ResponseWriter, r *http.Request) []b
 	user := entities.UserUnhide{}
 	_ = json.Unmarshal(b, &user)
 
-	createUserService := services.NewCreateUserService(&usersControllerRepository)
+	createUserService := services.NewCreateUserService(&usersControllerRepository, &usersControllerHashProvider)
 
 	userCreated, err := createUserService.Execute(user)
 	if err != nil {

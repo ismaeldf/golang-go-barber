@@ -2,9 +2,8 @@ package entities
 
 import (
 	"fmt"
-	uuid "github.com/satori/go.uuid"
 	"github.com/asaskevich/govalidator"
-	"golang.org/x/crypto/bcrypt"
+	uuid "github.com/satori/go.uuid"
 	"time"
 )
 
@@ -39,13 +38,11 @@ type UserUnhide struct {
 }
 
 func NewUser(name string, email string, password string) (*User, error) {
-	hashedPassword, _ := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
-
 	user := User{
 		Id:       uuid.NewV4().String(),
 		Name:     name,
 		Email:    email,
-		Password: string(hashedPassword),
+		Password: password,
 		CreatedAt: time.Now(),
 	}
 

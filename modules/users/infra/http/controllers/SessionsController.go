@@ -4,11 +4,13 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"ismaeldf/golang-gobarber/modules/users/infra/gorm/repositories"
+	"ismaeldf/golang-gobarber/modules/users/providers/HashProvider/implementations"
 	"ismaeldf/golang-gobarber/modules/users/services"
 	"net/http"
 )
 
 var sessionsControllerRepository = repositories.UsersRepository{}
+var sessionsControllerHashProvider = implementations.BCryptHashProvider{}
 
 type SessionsController struct{}
 
@@ -23,7 +25,10 @@ func (c SessionsController) SessionsCreate(w http.ResponseWriter, r *http.Reques
 	body := requestDTO{}
 	_ = json.Unmarshal(b, &body)
 
-	authenticateUserService := services.NewAuthenticateUserService(&sessionsControllerRepository)
+	authenticateUserService := services.NewAuthenticateUserService(
+		&sessionsControllerRepository,
+		&sessionsControllerHashProvider,
+	)
 
 	userAuthenticated, err := authenticateUserService.Execute(body.Email, body.Password)
 	if err != nil {
