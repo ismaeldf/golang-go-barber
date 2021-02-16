@@ -4,6 +4,7 @@ import (
 	"github.com/stretchr/testify/require"
 	_ "github.com/stretchr/testify/require"
 	"ismaeldf/golang-gobarber/modules/users/infra/gorm/entities"
+	fakeHashProvider "ismaeldf/golang-gobarber/modules/users/providers/HashProvider/fakes"
 	fakesUserRepository "ismaeldf/golang-gobarber/modules/users/repositories/fakes"
 	"ismaeldf/golang-gobarber/modules/users/services"
 	"testing"
@@ -12,8 +13,9 @@ import (
 func TestCreateUserService_Execute(t *testing.T) {
 	t.Run("should be able to create a new user", func(t *testing.T) {
 		usersRepository := fakesUserRepository.FakeUsersRepository{}
+		fakeHashProvider := fakeHashProvider.FakeHashProvider{}
 
-		userService := services.NewCreateUserService(&usersRepository)
+		userService := services.NewCreateUserService(&usersRepository, &fakeHashProvider)
 
 		user := entities.UserUnhide{}
 		user.Name = "Jhon Doe"
@@ -27,8 +29,9 @@ func TestCreateUserService_Execute(t *testing.T) {
 
 	t.Run("should be not able to create a new user with same email registered", func(t *testing.T) {
 		usersRepository := fakesUserRepository.FakeUsersRepository{}
+		fakeHashProvider := fakeHashProvider.FakeHashProvider{}
 
-		userService := services.NewCreateUserService(&usersRepository)
+		userService := services.NewCreateUserService(&usersRepository, &fakeHashProvider)
 
 		user := entities.UserUnhide{}
 		user.Name = "Jhon Doe"
@@ -44,8 +47,9 @@ func TestCreateUserService_Execute(t *testing.T) {
 
 	t.Run("should be not able to create a new user with not valid email", func(t *testing.T) {
 		usersRepository := fakesUserRepository.FakeUsersRepository{}
+		fakeHashProvider := fakeHashProvider.FakeHashProvider{}
 
-		userService := services.NewCreateUserService(&usersRepository)
+		userService := services.NewCreateUserService(&usersRepository, &fakeHashProvider)
 
 		user := entities.UserUnhide{}
 		user.Name = "Jhon Doe"
