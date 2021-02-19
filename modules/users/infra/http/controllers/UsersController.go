@@ -8,11 +8,13 @@ import (
 	"ismaeldf/golang-gobarber/modules/users/infra/http/middlewares"
 	"ismaeldf/golang-gobarber/modules/users/providers/HashProvider/implementations"
 	"ismaeldf/golang-gobarber/modules/users/services"
+	implementations2 "ismaeldf/golang-gobarber/shared/container/providers/implementations"
 	"net/http"
 )
 
 var usersControllerRepository = repositories.UsersRepository{}
 var usersControllerHashProvider = implementations.BCryptHashProvider{}
+var usersControllerIStorageProvider = implementations2.DiskStorageProvider{}
 
 type UsersController struct{}
 
@@ -36,35 +38,28 @@ func (c UsersController) UsersCreate(w http.ResponseWriter, r *http.Request) []b
 }
 
 func (c UsersController) UsersUpdateAvatar(w http.ResponseWriter, r *http.Request) []byte {
-	//parse input max size 1 MB to 2 MB
-	r.ParseMultipartForm(1 << 2)
+	err := r.ParseMultipartForm(1 << 2)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+	}
 
-	//retrieve file
 	file, _, err := r.FormFile("file")
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 	}
 	defer file.Close()
 
-	//write temporary file
-	tempFile, err := ioutil.TempFile(services.FileDirectory, "avatar-*.png")
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
-	}
-	defer tempFile.Close()
-
-	fileBytes, err := ioutil.ReadAll(file)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
-	}
-	tempFile.Write(fileBytes)
-
 	userId := middlewares.GetUserIdContext(r)
-	fileName := tempFile.Name()
 
-	updateUserAvatarService := services.NewUpdateUserAvatarService((&usersControllerRepository))
+	updateUserAvatarService := services.NewUpdateUserAvatarService(
+		&usersControllerRepository,
+		&usersControllerIStorageProvider,
+	)
 
-	userUpdated, err := updateUserAvatarService.Execute(userId, fileName)
+	userUpdated, err := updateUserAvatarService.Execute(userId, file)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+	}
 
 	js, _ := json.Marshal(userUpdated)
 

@@ -2,29 +2,38 @@ package services
 
 import (
 	"errors"
+	"ismaeldf/golang-gobarber/config"
 	"ismaeldf/golang-gobarber/modules/users/infra/gorm/entities"
-	"ismaeldf/golang-gobarber/modules/users/repositories"
-	"os"
+	models1 "ismaeldf/golang-gobarber/modules/users/repositories"
+	models2 "ismaeldf/golang-gobarber/shared/container/providers/models"
+	"mime/multipart"
 	"strings"
 )
 
-var FileDirectory = "images/"
 
 type updateUserAvatarService struct {
-	usersRepository repositories.IUserRepository
+	usersRepository models1.IUserRepository
+	storageProvider models2.IStorageProvider
 }
 
-func NewUpdateUserAvatarService(repository repositories.IUserRepository) *updateUserAvatarService {
-	return &updateUserAvatarService{usersRepository: repository}
+func NewUpdateUserAvatarService(repository models1.IUserRepository, storageProvider models2.IStorageProvider) *updateUserAvatarService {
+	return &updateUserAvatarService{usersRepository: repository, storageProvider: storageProvider}
 }
 
-func (s *updateUserAvatarService) Execute(userId string, filename string) (*entities.User, error) {
+func (s *updateUserAvatarService) Execute(userId string, file multipart.File) (*entities.User, error) {
 	user := s.usersRepository.FindById(userId)
 	if user.Id == "" {
 		return nil, errors.New("User not exists")
 	}
 
-	removeFilePreviousAvatar(user.Avatar)
+	if user.Avatar != "" {
+		s.storageProvider.DeleteFile(user.Avatar)
+	}
+
+	filename, err := s.storageProvider.SaveFile(file)
+	if err != nil {
+		return nil, err
+	}
 
 	user.Avatar = normalizeFilename(filename)
 
@@ -33,10 +42,7 @@ func (s *updateUserAvatarService) Execute(userId string, filename string) (*enti
 	return &userUpdated, nil
 }
 
-func removeFilePreviousAvatar(filename string) {
-	_ = os.Remove(FileDirectory + filename)
-}
 
 func normalizeFilename(filename string) string {
-	return strings.ReplaceAll(filename, FileDirectory, "")
+	return strings.ReplaceAll(filename, config.FileDirectory, "")
 }
