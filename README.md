@@ -15,7 +15,9 @@ https://golang.org/doc/install
 
 ## Install air (optional)
 executa o projeto e atualiza automaticamente os arquivos alterados
+
 ``go get -u github.com/cosmtrek/air``
+
 ``air``
 
 ## Run test
