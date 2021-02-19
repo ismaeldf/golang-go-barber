@@ -1,6 +1,6 @@
 # GO BARBER
 
-Aplicação desenvolvida em golang usando o exemplo original em NodeJS desenvolvido pela rocketseat.
+Aplicação desenvolvida em golang usando o exemplo original em NodeJS da rocketseat.
 
 # EXECUÇãO
 
