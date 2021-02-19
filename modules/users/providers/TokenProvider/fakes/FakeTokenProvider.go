@@ -1,4 +1,4 @@
-package fakeTokenProvider
+package fakes
 
 
 type FakeTokenProvider struct{}

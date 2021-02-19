@@ -1,4 +1,4 @@
-package fakeHashProvider
+package fakes
 
 type FakeHashProvider struct {}
 
