@@ -1,33 +1,33 @@
 # GO BARBER
 
-## Aplicação desenvolvida em golang usando o exemplo original em NodeJS desenvolvido pela rocketseat.
+Aplicação desenvolvida em golang usando o exemplo original em NodeJS desenvolvido pela rocketseat.
 
 # EXECUÇãO
 
 ## Install go 
-### https://golang.org/doc/install
+https://golang.org/doc/install
 
 ## Install database (postgres)
-### docker-compose up -d
+``docker-compose up -d``
 
 ## Run api
-### go run server.go
+``go run server.go``
 
 ## Install air (optional)
-### roda o projeto e atualiza automaticamente os arquivos alterados
-### go get -u github.com/cosmtrek/air
-### air
+executa o projeto e atualiza automaticamente os arquivos alterados
+``go get -u github.com/cosmtrek/air``
+``air``
 
 ## Run test
-### go test ./... -v
+``go test ./... -v``
 
 ## Run coverage tests
 ### export coverage
-### go test ./... -coverprofile=coverage.out
+``go test ./... -coverprofile=coverage.out``
 
 ### analyze coverage
-### go tool cover -func=coverage.out
+``go tool cover -func=coverage.out``
 
 ### analyze coverage via a browser
-### go tool cover -html=coverage.out
+``go tool cover -html=coverage.out``
 
