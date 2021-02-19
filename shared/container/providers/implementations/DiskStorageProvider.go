@@ -1,7 +1,7 @@
 package implementations
 
 import (
-	"errors"
+	"fmt"
 	"io/ioutil"
 	"ismaeldf/golang-gobarber/config"
 	"mime/multipart"
@@ -10,20 +10,20 @@ import (
 
 type DiskStorageProvider struct{}
 
-func (d *DiskStorageProvider) SaveFile(file multipart.File) (string, error) {
+func (d *DiskStorageProvider) SaveFile(file multipart.File) string {
 	tempFile, err := ioutil.TempFile(config.FileDirectory, "avatar-*.png")
 	if err != nil {
-		return "", errors.New(err.Error())
+		fmt.Print(err.Error())
 	}
 	defer tempFile.Close()
 
 	fileBytes, err := ioutil.ReadAll(file)
 	if err != nil {
-		return "", errors.New(err.Error())
+		fmt.Print(err.Error())
 	}
 	tempFile.Write(fileBytes)
 
-	return tempFile.Name(), nil
+	return tempFile.Name()
 }
 
 func (d *DiskStorageProvider) DeleteFile(filename string){

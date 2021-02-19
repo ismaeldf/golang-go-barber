@@ -30,10 +30,7 @@ func (s *updateUserAvatarService) Execute(userId string, file multipart.File) (*
 		s.storageProvider.DeleteFile(user.Avatar)
 	}
 
-	filename, err := s.storageProvider.SaveFile(file)
-	if err != nil {
-		return nil, err
-	}
+	filename := s.storageProvider.SaveFile(file)
 
 	user.Avatar = normalizeFilename(filename)
 
