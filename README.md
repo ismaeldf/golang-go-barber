@@ -2,7 +2,7 @@
 
 ## Aplicação desenvolvida em golang usando o exemplo original em NodeJS desenvolvido pela rocketseat.
 
-# EXECUÇAO
+# EXECUÇãO
 
 ## Install go 
 ### https://golang.org/doc/install
