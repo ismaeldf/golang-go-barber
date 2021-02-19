@@ -1,4 +1,11 @@
 mode: set
+ismaeldf/golang-gobarber/modules/appointments/infra/gorm/entities/Appointment.go:11.13,13.2 1 1
+ismaeldf/golang-gobarber/modules/appointments/infra/gorm/entities/Appointment.go:24.39,27.16 2 1
+ismaeldf/golang-gobarber/modules/appointments/infra/gorm/entities/Appointment.go:31.2,31.12 1 1
+ismaeldf/golang-gobarber/modules/appointments/infra/gorm/entities/Appointment.go:27.16,30.3 2 1
+ismaeldf/golang-gobarber/modules/appointments/infra/gorm/entities/Appointment.go:34.78,44.16 5 1
+ismaeldf/golang-gobarber/modules/appointments/infra/gorm/entities/Appointment.go:48.2,48.26 1 1
+ismaeldf/golang-gobarber/modules/appointments/infra/gorm/entities/Appointment.go:44.16,46.3 1 1
 ismaeldf/golang-gobarber/modules/users/infra/gorm/entities/User.go:10.13,12.2 1 1
 ismaeldf/golang-gobarber/modules/users/infra/gorm/entities/User.go:24.32,27.16 2 1
 ismaeldf/golang-gobarber/modules/users/infra/gorm/entities/User.go:31.2,31.12 1 1
@@ -11,19 +18,13 @@ ismaeldf/golang-gobarber/modules/appointments/services/CreateAppointmentService.
 ismaeldf/golang-gobarber/modules/appointments/services/CreateAppointmentService.go:26.2,28.32 2 1
 ismaeldf/golang-gobarber/modules/appointments/services/CreateAppointmentService.go:22.19,24.3 1 1
 ismaeldf/golang-gobarber/modules/appointments/services/CreateAppointmentService.go:31.44,44.2 2 1
-ismaeldf/golang-gobarber/modules/users/services/AuthenticateUserService.go:32.137,34.2 1 1
+ismaeldf/golang-gobarber/modules/users/services/AuthenticateUserService.go:28.28,34.2 1 1
 ismaeldf/golang-gobarber/modules/users/services/AuthenticateUserService.go:36.109,38.19 2 1
 ismaeldf/golang-gobarber/modules/users/services/AuthenticateUserService.go:42.2,43.22 2 1
 ismaeldf/golang-gobarber/modules/users/services/AuthenticateUserService.go:47.2,54.23 3 1
 ismaeldf/golang-gobarber/modules/users/services/AuthenticateUserService.go:38.19,40.3 1 1
 ismaeldf/golang-gobarber/modules/users/services/AuthenticateUserService.go:43.22,45.3 1 1
-ismaeldf/golang-gobarber/modules/users/services/AuthenticateUserService.go:57.39,72.2 5 1
-ismaeldf/golang-gobarber/modules/users/services/AuthenticateUserService.go:74.54,77.114 2 0
-ismaeldf/golang-gobarber/modules/users/services/AuthenticateUserService.go:81.2,81.69 1 0
-ismaeldf/golang-gobarber/modules/users/services/AuthenticateUserService.go:77.114,79.3 1 0
-ismaeldf/golang-gobarber/modules/users/services/AuthenticateUserService.go:81.69,83.3 1 0
-ismaeldf/golang-gobarber/modules/users/services/AuthenticateUserService.go:83.8,85.3 1 0
-ismaeldf/golang-gobarber/modules/users/services/AuthenticateUserService.go:88.95,90.2 1 1
+ismaeldf/golang-gobarber/modules/users/services/AuthenticateUserService.go:57.95,59.2 1 1
 ismaeldf/golang-gobarber/modules/users/services/CreateUserService.go:15.125,17.2 1 1
 ismaeldf/golang-gobarber/modules/users/services/CreateUserService.go:19.87,21.19 2 1
 ismaeldf/golang-gobarber/modules/users/services/CreateUserService.go:25.2,28.16 3 1
@@ -36,10 +37,3 @@ ismaeldf/golang-gobarber/modules/users/services/UpdateUserAvatarService.go:27.2,
 ismaeldf/golang-gobarber/modules/users/services/UpdateUserAvatarService.go:23.19,25.3 1 0
 ismaeldf/golang-gobarber/modules/users/services/UpdateUserAvatarService.go:36.48,38.2 1 0
 ismaeldf/golang-gobarber/modules/users/services/UpdateUserAvatarService.go:40.48,42.2 1 0
-ismaeldf/golang-gobarber/modules/appointments/infra/gorm/entities/Appointment.go:11.13,13.2 1 1
-ismaeldf/golang-gobarber/modules/appointments/infra/gorm/entities/Appointment.go:24.39,27.16 2 1
-ismaeldf/golang-gobarber/modules/appointments/infra/gorm/entities/Appointment.go:31.2,31.12 1 1
-ismaeldf/golang-gobarber/modules/appointments/infra/gorm/entities/Appointment.go:27.16,30.3 2 1
-ismaeldf/golang-gobarber/modules/appointments/infra/gorm/entities/Appointment.go:34.78,44.16 5 1
-ismaeldf/golang-gobarber/modules/appointments/infra/gorm/entities/Appointment.go:48.2,48.26 1 1
-ismaeldf/golang-gobarber/modules/appointments/infra/gorm/entities/Appointment.go:44.16,46.3 1 1

@@ -3,7 +3,7 @@ package middlewares
 import (
 	"context"
 	"github.com/urfave/negroni"
-	userServices "ismaeldf/golang-gobarber/modules/users/services"
+	"ismaeldf/golang-gobarber/modules/users/providers/TokenProvider/models"
 	"net/http"
 )
 
@@ -25,7 +25,7 @@ func GetUserIdContext(r *http.Request) string {
 	return d.Id
 }
 
-func EnsureAuthenticated() negroni.Handler {
+func EnsureAuthenticated(tokenProvider models.ITokenProvider) negroni.Handler {
 	return negroni.HandlerFunc(func(w http.ResponseWriter, r *http.Request, next http.HandlerFunc) {
 		authHeader := r.Header.Get("authorization")
 
@@ -34,7 +34,7 @@ func EnsureAuthenticated() negroni.Handler {
 			return
 		}
 
-		id, err := userServices.DecodeToken(authHeader)
+		id, err := tokenProvider.DecodeToken(authHeader)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusUnauthorized)
 			return

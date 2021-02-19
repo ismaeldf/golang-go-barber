@@ -5,12 +5,14 @@ import (
 	"io/ioutil"
 	"ismaeldf/golang-gobarber/modules/users/infra/gorm/repositories"
 	"ismaeldf/golang-gobarber/modules/users/providers/HashProvider/implementations"
+	implementations2 "ismaeldf/golang-gobarber/modules/users/providers/TokenProvider/implementations"
 	"ismaeldf/golang-gobarber/modules/users/services"
 	"net/http"
 )
 
 var sessionsControllerRepository = repositories.UsersRepository{}
 var sessionsControllerHashProvider = implementations.BCryptHashProvider{}
+var sessionsControllerTokenProvider = implementations2.JwtTokenProvider{}
 
 type SessionsController struct{}
 
@@ -28,6 +30,7 @@ func (c SessionsController) SessionsCreate(w http.ResponseWriter, r *http.Reques
 	authenticateUserService := services.NewAuthenticateUserService(
 		&sessionsControllerRepository,
 		&sessionsControllerHashProvider,
+		&sessionsControllerTokenProvider,
 	)
 
 	userAuthenticated, err := authenticateUserService.Execute(body.Email, body.Password)

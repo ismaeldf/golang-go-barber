@@ -5,10 +5,13 @@ import (
 	"github.com/urfave/negroni"
 	"ismaeldf/golang-gobarber/modules/appointments/infra/http/controllers"
 	"ismaeldf/golang-gobarber/modules/users/infra/http/middlewares"
+	"ismaeldf/golang-gobarber/modules/users/providers/TokenProvider/implementations"
 	"net/http"
 )
 
 var appointmentController = controllers.AppointmentsController{}
+var appointmentControllerTokenProvider = implementations.JwtTokenProvider{}
+
 
 func createAppointment(w http.ResponseWriter, r *http.Request) {
 	js := appointmentController.AppointmentCreate(w, r)
@@ -28,7 +31,7 @@ func AppointmentsRouter(router *mux.Router) {
 	subRouter.HandleFunc("", listAppointment).Methods("GET")
 
 	router.PathPrefix(path).Handler(negroni.New(
-		middlewares.EnsureAuthenticated(),
+		middlewares.EnsureAuthenticated(&appointmentControllerTokenProvider),
 		negroni.Wrap(subRouter),
 	))
 }

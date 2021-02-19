@@ -5,10 +5,12 @@ import (
 	"github.com/urfave/negroni"
 	"ismaeldf/golang-gobarber/modules/users/infra/http/controllers"
 	"ismaeldf/golang-gobarber/modules/users/infra/http/middlewares"
+	"ismaeldf/golang-gobarber/modules/users/providers/TokenProvider/implementations"
 	"net/http"
 )
 
 var usersController = controllers.UsersController{}
+var usersControllerTokenProvider = implementations.JwtTokenProvider{}
 
 func createUser(w http.ResponseWriter, r *http.Request) {
 	js := usersController.UsersCreate(w, r)
@@ -29,7 +31,7 @@ func UsersRouter(router *mux.Router){
 	subRouter.HandleFunc("/avatar", updateAvatar).Methods("PATCH")
 
 	router.PathPrefix(path).Handler(negroni.New(
-		middlewares.EnsureAuthenticated(),
+		middlewares.EnsureAuthenticated(&usersControllerTokenProvider),
 		negroni.Wrap(subRouter),
 	))
 }

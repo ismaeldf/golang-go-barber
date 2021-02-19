@@ -5,6 +5,7 @@ import (
 	_ "github.com/stretchr/testify/require"
 	"ismaeldf/golang-gobarber/modules/users/infra/gorm/entities"
 	fakeHashProvider "ismaeldf/golang-gobarber/modules/users/providers/HashProvider/fakes"
+	fakeTokenProvider "ismaeldf/golang-gobarber/modules/users/providers/TokenProvider/fakes"
 	fakesUserRepository "ismaeldf/golang-gobarber/modules/users/repositories/fakes"
 	"ismaeldf/golang-gobarber/modules/users/services"
 	"testing"
@@ -14,6 +15,7 @@ func TestAuthenticateUserService_Execute(t *testing.T) {
 	t.Run("should be able to authenticate user", func(t *testing.T) {
 		usersRepository := fakesUserRepository.FakeUsersRepository{}
 		fakeHashProvider := fakeHashProvider.FakeHashProvider{}
+		fakeTokenProvider := fakeTokenProvider.FakeTokenProvider{}
 
 		userService := services.NewCreateUserService(&usersRepository, &fakeHashProvider)
 
@@ -24,7 +26,7 @@ func TestAuthenticateUserService_Execute(t *testing.T) {
 
 		_, _ = userService.Execute(user)
 
-		userAuthenticate := services.NewAuthenticateUserService(&usersRepository, &fakeHashProvider)
+		userAuthenticate := services.NewAuthenticateUserService(&usersRepository, &fakeHashProvider, &fakeTokenProvider)
 
 		auth, _ := userAuthenticate.Execute(user.Email, user.Password)
 
@@ -34,8 +36,9 @@ func TestAuthenticateUserService_Execute(t *testing.T) {
 	t.Run("should be not able to authenticate with non exists user", func(t *testing.T) {
 		usersRepository := fakesUserRepository.FakeUsersRepository{}
 		fakeHashProvider := fakeHashProvider.FakeHashProvider{}
+		fakeTokenProvider := fakeTokenProvider.FakeTokenProvider{}
 
-		userAuthenticate := services.NewAuthenticateUserService(&usersRepository, &fakeHashProvider)
+		userAuthenticate := services.NewAuthenticateUserService(&usersRepository, &fakeHashProvider, &fakeTokenProvider)
 
 		_, err := userAuthenticate.Execute("user-not-exists@email.com", "12345")
 
@@ -45,6 +48,7 @@ func TestAuthenticateUserService_Execute(t *testing.T) {
 	t.Run("should be not able to authenticate with wrong password", func(t *testing.T) {
 		usersRepository := fakesUserRepository.FakeUsersRepository{}
 		fakeHashProvider := fakeHashProvider.FakeHashProvider{}
+		fakeTokenProvider := fakeTokenProvider.FakeTokenProvider{}
 
 		userService := services.NewCreateUserService(&usersRepository, &fakeHashProvider)
 
@@ -55,7 +59,7 @@ func TestAuthenticateUserService_Execute(t *testing.T) {
 
 		_, _ = userService.Execute(user)
 
-		userAuthenticate := services.NewAuthenticateUserService(&usersRepository, &fakeHashProvider)
+		userAuthenticate := services.NewAuthenticateUserService(&usersRepository, &fakeHashProvider, &fakeTokenProvider)
 
 		_, err := userAuthenticate.Execute(user.Email, "11111")
 
