@@ -5,7 +5,7 @@ import (
 	"ismaeldf/golang-gobarber/config"
 	"ismaeldf/golang-gobarber/modules/users/infra/gorm/entities"
 	models1 "ismaeldf/golang-gobarber/modules/users/repositories"
-	models2 "ismaeldf/golang-gobarber/shared/container/providers/models"
+	models2 "ismaeldf/golang-gobarber/shared/container/providers/StorageProvider/models"
 	"mime/multipart"
 	"strings"
 )

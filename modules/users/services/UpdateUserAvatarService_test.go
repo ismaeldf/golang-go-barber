@@ -7,7 +7,7 @@ import (
 	fakeHashProvider "ismaeldf/golang-gobarber/modules/users/providers/HashProvider/fakes"
 	fakesUserRepository "ismaeldf/golang-gobarber/modules/users/repositories/fakes"
 	"ismaeldf/golang-gobarber/modules/users/services"
-	"ismaeldf/golang-gobarber/shared/container/providers/fakes"
+	"ismaeldf/golang-gobarber/shared/container/providers/StorageProvider/fakes"
 	"mime/multipart"
 	"testing"
 )

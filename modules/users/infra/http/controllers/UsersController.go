@@ -8,7 +8,7 @@ import (
 	"ismaeldf/golang-gobarber/modules/users/infra/http/middlewares"
 	"ismaeldf/golang-gobarber/modules/users/providers/HashProvider/implementations"
 	"ismaeldf/golang-gobarber/modules/users/services"
-	implementations2 "ismaeldf/golang-gobarber/shared/container/providers/implementations"
+	implementations2 "ismaeldf/golang-gobarber/shared/container/providers/StorageProvider/implementations"
 	"net/http"
 )
 
