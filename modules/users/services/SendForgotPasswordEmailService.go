@@ -1,6 +1,7 @@
 package services
 
 import (
+	"errors"
 	models1 "ismaeldf/golang-gobarber/modules/users/repositories"
 	models2 "ismaeldf/golang-gobarber/shared/container/providers/MailProvider/models"
 )
@@ -16,6 +17,11 @@ func NewSendForgotPasswordEmailService(repository models1.IUserRepository, mailP
 }
 
 func (s *sendForgotPasswordEmailService) Execute(email string) error{
+	user := s.usersRepository.FindByEmail(email)
+	if user.Id == "" {
+		return errors.New("User does not exists")
+	}
+
 	err := s.mailProvider.SendMail(email, "Email de recuperação de senha")
 	if err != nil {
 		return err

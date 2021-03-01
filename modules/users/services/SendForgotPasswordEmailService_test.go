@@ -32,4 +32,15 @@ func TestSendForgotPasswordEmailService_Execute(t *testing.T) {
 
 		require.Nil(t, err)
 	})
+
+	t.Run("should not be able to send email forgot password using no existing user", func(t *testing.T) {
+		usersRepository := fakesUserRepository.FakeUsersRepository{}
+		fakeMailProvider := fakes.FakeMailProvider{}
+
+		sendForgotPasswordEMail := services.NewSendForgotPasswordEmailService(&usersRepository, &fakeMailProvider)
+
+		err := sendForgotPasswordEMail.Execute("non-user@email.com")
+
+		require.NotNil(t, err)
+	})
 }
