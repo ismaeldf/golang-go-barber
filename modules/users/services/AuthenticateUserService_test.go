@@ -11,23 +11,23 @@ import (
 	"testing"
 )
 
-var usersRepositoryAuthenticateUserService fakesUser.FakeUsersRepository
-var fakeHashProviderAuthenticateUserService fakeHashProvider.FakeHashProvider
-var fakeTokenProviderAuthenticateUserService fakeTokenProvider.FakeTokenProvider
-var userServiceAuthenticateUserService *services.CreateUserService
+var usersRepository1 fakesUser.FakeUsersRepository
+var fakeHashProvider1 fakeHashProvider.FakeHashProvider
+var fakeTokenProvider1 fakeTokenProvider.FakeTokenProvider
+var userService1 *services.CreateUserService
 var userAuthenticate *services.AuthenticateUserService
 
-func beforeEachAuthenticateUserService() {
-	usersRepositoryAuthenticateUserService = fakesUser.FakeUsersRepository{}
-	fakeHashProviderAuthenticateUserService = fakeHashProvider.FakeHashProvider{}
-	fakeTokenProviderAuthenticateUserService = fakeTokenProvider.FakeTokenProvider{}
+func beforeEach1() {
+	usersRepository1 = fakesUser.FakeUsersRepository{}
+	fakeHashProvider1 = fakeHashProvider.FakeHashProvider{}
+	fakeTokenProvider1 = fakeTokenProvider.FakeTokenProvider{}
 
-	userServiceAuthenticateUserService = services.NewCreateUserService(&usersRepositoryAuthenticateUserService, &fakeHashProviderAuthenticateUserService)
-	userAuthenticate = services.NewAuthenticateUserService(&usersRepositoryAuthenticateUserService, &fakeHashProviderAuthenticateUserService, &fakeTokenProviderAuthenticateUserService)
+	userService1 = services.NewCreateUserService(&usersRepository1, &fakeHashProvider1)
+	userAuthenticate = services.NewAuthenticateUserService(&usersRepository1, &fakeHashProvider1, &fakeTokenProvider1)
 }
 
 func TestAuthenticateUserService_Execute(t *testing.T) {
-	beforeEachAuthenticateUserService()
+	beforeEach1()
 
 	t.Run("should be able to authenticate user", func(t *testing.T) {
 		user := entities.UserUnhide{}
@@ -35,7 +35,7 @@ func TestAuthenticateUserService_Execute(t *testing.T) {
 		user.Email = "jhondoe@email.com"
 		user.Password = "12345"
 
-		_, _ = userServiceAuthenticateUserService.Execute(user)
+		_, _ = userService1.Execute(user)
 
 		auth, _ := userAuthenticate.Execute(user.Email, user.Password)
 
@@ -43,7 +43,7 @@ func TestAuthenticateUserService_Execute(t *testing.T) {
 	})
 
 	t.Run("should be not able to authenticate with non exists user", func(t *testing.T) {
-		beforeEachAuthenticateUserService()
+		beforeEach1()
 
 		_, err := userAuthenticate.Execute("user-not-exists@email.com", "12345")
 
@@ -51,14 +51,14 @@ func TestAuthenticateUserService_Execute(t *testing.T) {
 	})
 
 	t.Run("should be not able to authenticate with wrong password", func(t *testing.T) {
-		beforeEachAuthenticateUserService()
+		beforeEach1()
 
 		user := entities.UserUnhide{}
 		user.Name = "Jhon Doe"
 		user.Email = "jhondoe@email.com"
 		user.Password = "12345"
 
-		_, _ = userServiceAuthenticateUserService.Execute(user)
+		_, _ = userService1.Execute(user)
 
 		_, err := userAuthenticate.Execute(user.Email, "11111")
 
