@@ -7,16 +7,16 @@ import (
 	"ismaeldf/golang-gobarber/modules/users/repositories"
 )
 
-type createUserService struct {
+type CreateUserService struct {
 	usersRepository repositories.IUserRepository
 	hashProvider providers.IHashProvider
 }
 
-func NewCreateUserService(repository repositories.IUserRepository, hashProvider providers.IHashProvider) *createUserService {
-	return &createUserService{repository, hashProvider}
+func NewCreateUserService(repository repositories.IUserRepository, hashProvider providers.IHashProvider) *CreateUserService {
+	return &CreateUserService{repository, hashProvider}
 }
 
-func (s *createUserService) Execute(user entities.UserUnhide) (*entities.User, error) {
+func (s *CreateUserService) Execute(user entities.UserUnhide) (*entities.User, error) {
 	find := s.usersRepository.FindByEmail(user.Email)
 	if find.Id != "" {
 		return nil, errors.New("This email is already in use")

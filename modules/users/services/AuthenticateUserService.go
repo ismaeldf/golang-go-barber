@@ -13,7 +13,7 @@ type ResponseAuthenticateUser struct {
 	Token string
 }
 
-type authenticateUserService struct {
+type AuthenticateUserService struct {
 	usersRepository repositories.IUserRepository
 	hashProvider    model1.IHashProvider
 	tokenProvider   model2.ITokenProvider
@@ -25,15 +25,15 @@ func NewAuthenticateUserService(
 	repository repositories.IUserRepository,
 	hashProvider model1.IHashProvider,
 	tokenProvider model2.ITokenProvider,
-) *authenticateUserService {
-	return &authenticateUserService{
+) *AuthenticateUserService {
+	return &AuthenticateUserService{
 		usersRepository: repository,
 		hashProvider: hashProvider,
 		tokenProvider: tokenProvider,
 	}
 }
 
-func (s *authenticateUserService) Execute(email string, password string) (*ResponseAuthenticateUser, error) {
+func (s *AuthenticateUserService) Execute(email string, password string) (*ResponseAuthenticateUser, error) {
 	user := s.usersRepository.FindByEmail(email)
 	if user.Id == "" {
 		return nil, errors.New(errorMsg)
@@ -54,6 +54,6 @@ func (s *authenticateUserService) Execute(email string, password string) (*Respo
 	return &response, nil
 }
 
-func (a *authenticateUserService) isCorrectPassword(user entities.User, password string) bool {
+func (a *AuthenticateUserService) isCorrectPassword(user entities.User, password string) bool {
 	return a.hashProvider.CompareHash(password, user.Password)
 }
