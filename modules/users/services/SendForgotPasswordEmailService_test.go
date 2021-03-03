@@ -11,13 +11,31 @@ import (
 	"testing"
 )
 
+var usersRepository2 fakesUserRepository.FakeUsersRepository
+var fakeHashProvider2 fakeHashProvider.FakeHashProvider
+var fakeMailProvider2 fakes.FakeMailProvider
+var userService *services.CreateUserService
+var sendForgotPasswordEMail *services.SendForgotPasswordEmailService
+var userTokeRepository2 fakesUserRepository.FakeUserTokenRepository
+
+func beforeEach2(){
+	usersRepository2 = fakesUserRepository.FakeUsersRepository{}
+	fakeHashProvider2 = fakeHashProvider.FakeHashProvider{}
+	fakeMailProvider2 = fakes.FakeMailProvider{}
+	userTokeRepository2 = fakesUserRepository.FakeUserTokenRepository{}
+
+	userService = services.NewCreateUserService(&usersRepository2, &fakeHashProvider2)
+	sendForgotPasswordEMail = services.NewSendForgotPasswordEmailService(
+		&usersRepository2,
+		&fakeMailProvider2,
+		&userTokeRepository2,
+	)
+
+}
+
 func TestSendForgotPasswordEmailService_Execute(t *testing.T) {
 	t.Run("should be able to send email forgot password", func(t *testing.T) {
-		usersRepository := fakesUserRepository.FakeUsersRepository{}
-		fakeHashProvider := fakeHashProvider.FakeHashProvider{}
-		fakeMailProvider := fakes.FakeMailProvider{}
-
-		userService := services.NewCreateUserService(&usersRepository, &fakeHashProvider)
+		beforeEach2()
 
 		user := entities.UserUnhide{}
 		user.Name = "Jhon Doe"
@@ -26,18 +44,13 @@ func TestSendForgotPasswordEmailService_Execute(t *testing.T) {
 
 		_, _ = userService.Execute(user)
 
-		sendForgotPasswordEMail := services.NewSendForgotPasswordEmailService(&usersRepository, &fakeMailProvider)
-
 		err := sendForgotPasswordEMail.Execute(user.Email)
 
 		require.Nil(t, err)
 	})
 
 	t.Run("should not be able to send email forgot password using no existing user", func(t *testing.T) {
-		usersRepository := fakesUserRepository.FakeUsersRepository{}
-		fakeMailProvider := fakes.FakeMailProvider{}
-
-		sendForgotPasswordEMail := services.NewSendForgotPasswordEmailService(&usersRepository, &fakeMailProvider)
+		beforeEach2()
 
 		err := sendForgotPasswordEMail.Execute("non-user@email.com")
 

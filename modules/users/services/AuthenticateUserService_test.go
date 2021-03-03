@@ -17,7 +17,7 @@ var fakeTokenProviderAuthenticateUserService fakeTokenProvider.FakeTokenProvider
 var userServiceAuthenticateUserService *services.CreateUserService
 var userAuthenticate *services.AuthenticateUserService
 
-func beforeEach() {
+func beforeEachAuthenticateUserService() {
 	usersRepositoryAuthenticateUserService = fakesUser.FakeUsersRepository{}
 	fakeHashProviderAuthenticateUserService = fakeHashProvider.FakeHashProvider{}
 	fakeTokenProviderAuthenticateUserService = fakeTokenProvider.FakeTokenProvider{}
@@ -27,7 +27,7 @@ func beforeEach() {
 }
 
 func TestAuthenticateUserService_Execute(t *testing.T) {
-	beforeEach()
+	beforeEachAuthenticateUserService()
 
 	t.Run("should be able to authenticate user", func(t *testing.T) {
 		user := entities.UserUnhide{}
@@ -43,7 +43,7 @@ func TestAuthenticateUserService_Execute(t *testing.T) {
 	})
 
 	t.Run("should be not able to authenticate with non exists user", func(t *testing.T) {
-		beforeEach()
+		beforeEachAuthenticateUserService()
 
 		_, err := userAuthenticate.Execute("user-not-exists@email.com", "12345")
 
@@ -51,7 +51,7 @@ func TestAuthenticateUserService_Execute(t *testing.T) {
 	})
 
 	t.Run("should be not able to authenticate with wrong password", func(t *testing.T) {
-		beforeEach()
+		beforeEachAuthenticateUserService()
 
 		user := entities.UserUnhide{}
 		user.Name = "Jhon Doe"

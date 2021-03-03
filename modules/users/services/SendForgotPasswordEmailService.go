@@ -6,17 +6,25 @@ import (
 	models2 "ismaeldf/golang-gobarber/shared/container/providers/MailProvider/models"
 )
 
-
-type sendForgotPasswordEmailService struct {
-	usersRepository models1.IUserRepository
-	mailProvider models2.IMailProvider
+type SendForgotPasswordEmailService struct {
+	usersRepository     models1.IUserRepository
+	mailProvider        models2.IMailProvider
+	userTokenRepository models1.IUserTokenRepository
 }
 
-func NewSendForgotPasswordEmailService(repository models1.IUserRepository, mailProvider models2.IMailProvider) *sendForgotPasswordEmailService {
-	return &sendForgotPasswordEmailService{usersRepository: repository, mailProvider: mailProvider}
+func NewSendForgotPasswordEmailService(
+	userRepository models1.IUserRepository,
+	mailProvider models2.IMailProvider,
+	userTokeRepository models1.IUserTokenRepository,
+) *SendForgotPasswordEmailService {
+	return &SendForgotPasswordEmailService{
+		usersRepository:     userRepository,
+		mailProvider:        mailProvider,
+		userTokenRepository: userTokeRepository,
+	}
 }
 
-func (s *sendForgotPasswordEmailService) Execute(email string) error{
+func (s *SendForgotPasswordEmailService) Execute(email string) error {
 	user := s.usersRepository.FindByEmail(email)
 	if user.Id == "" {
 		return errors.New("User does not exists")
@@ -28,4 +36,3 @@ func (s *sendForgotPasswordEmailService) Execute(email string) error{
 	}
 	return nil
 }
-
