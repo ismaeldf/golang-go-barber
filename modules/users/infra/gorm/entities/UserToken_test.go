@@ -14,9 +14,9 @@ func TestNewUserToken(t *testing.T) {
 		require.Equal(t, userToken.UserId, user.Id)
 	})
 
-	//t.Run("should be not able to create a new entitie user", func(t *testing.T) {
-	//	_, err := NewUser("", "", "")
-	//
-	//	require.NotNil(t, err)
-	//})
+	t.Run("should be not able to create a new entitie userToken", func(t *testing.T) {
+		_, err := NewUserToken("non-uuid")
+
+		require.NotNil(t, err)
+	})
 }
