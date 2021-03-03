@@ -30,6 +30,8 @@ func (s *SendForgotPasswordEmailService) Execute(email string) error {
 		return errors.New("User does not exists")
 	}
 
+	_, _ = s.userTokenRepository.Generate(user.Id)
+
 	err := s.mailProvider.SendMail(email, "Email de recuperação de senha")
 	if err != nil {
 		return err
