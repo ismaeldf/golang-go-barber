@@ -4,23 +4,23 @@ import (
 	"github.com/stretchr/testify/require"
 	_ "github.com/stretchr/testify/require"
 	"ismaeldf/golang-gobarber/modules/users/infra/gorm/entities"
-	fakeHash "ismaeldf/golang-gobarber/modules/users/providers/HashProvider/fakes"
-	fakeToken "ismaeldf/golang-gobarber/modules/users/providers/TokenProvider/fakes"
+	fakeHashProvider "ismaeldf/golang-gobarber/modules/users/providers/HashProvider/fakes"
+	fakeTokenProvider "ismaeldf/golang-gobarber/modules/users/providers/TokenProvider/fakes"
 	fakesUser "ismaeldf/golang-gobarber/modules/users/repositories/fakes"
 	"ismaeldf/golang-gobarber/modules/users/services"
 	"testing"
 )
 
 var usersRepositoryAuthenticateUserService fakesUser.FakeUsersRepository
-var fakeHashProviderAuthenticateUserService fakeHash.FakeHashProvider
-var fakeTokenProviderAuthenticateUserService fakeToken.FakeTokenProvider
+var fakeHashProviderAuthenticateUserService fakeHashProvider.FakeHashProvider
+var fakeTokenProviderAuthenticateUserService fakeTokenProvider.FakeTokenProvider
 var userServiceAuthenticateUserService *services.CreateUserService
 var userAuthenticate *services.AuthenticateUserService
 
 func beforeEach() {
 	usersRepositoryAuthenticateUserService = fakesUser.FakeUsersRepository{}
-	fakeHashProviderAuthenticateUserService = fakeHash.FakeHashProvider{}
-	fakeTokenProviderAuthenticateUserService = fakeToken.FakeTokenProvider{}
+	fakeHashProviderAuthenticateUserService = fakeHashProvider.FakeHashProvider{}
+	fakeTokenProviderAuthenticateUserService = fakeTokenProvider.FakeTokenProvider{}
 
 	userServiceAuthenticateUserService = services.NewCreateUserService(&usersRepositoryAuthenticateUserService, &fakeHashProviderAuthenticateUserService)
 	userAuthenticate = services.NewAuthenticateUserService(&usersRepositoryAuthenticateUserService, &fakeHashProviderAuthenticateUserService, &fakeTokenProviderAuthenticateUserService)
